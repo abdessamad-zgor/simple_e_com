@@ -12,35 +12,65 @@ const App = () => {
   useEffect(()=>{
     fetch('http://localhost:8080/api.php')
     .then(res=>res.json())
-    .then(prods=>setProducts(prods.map(p=>({_id: p._id.$oid, ...p}))))
+    .then(prods=>{
+      setProducts(prods.map(p=>({...p, _id: p._id.$oid})))
+    })
   }, [])
+
+  useEffect(()=>{
+    console.log(products)
+  }, [products])
 
   const handleAddProduct = (newProduct) => {
     fetch('http://localhost:8080/api.php', {
       method: 'POST',
       body: JSON.stringify(newProduct)
-    }).then((p)=>{
-      let new_p = {_id: p.id.$oid, ...p}
-      setProducts([...products, {...new_p }]);
+    })
+    .then(res=>res.json())
+    .then((p)=>{
+      let new_p = {...newProduct, _id: p.insertedId}
+      setProducts([...products, {...new_p}]);
       setAddModalOpen(false);
     })
   };
 
   const handleEditProduct = (editedProduct) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.id === selectedProductId ? { ...product, ...editedProduct } : product
-      )
-    );
-    setAddModalOpen(false);
+    fetch(`http://localhost:8080/api.php?id=${selectedProductId}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(editedProduct)
+      }
+    )
+    .then(()=>{
+
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.id === selectedProductId ? { ...product, ...editedProduct } : product
+        )
+      );
+      setAddModalOpen(false);
+    })
   };
 
   const handleDeleteProduct = () => {
-    setProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== selectedProductId)
-    );
-    setDeleteModalOpen(false);
+    fetch(`http://localhost:8080/api.php?id=${selectedProductId}`)
+    .then(()=>{
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product.id !== selectedProductId)
+      );
+      setDeleteModalOpen(false);
+    })
   };
+
+  const handleOpenEditModal = (id)=>{
+    setSelectedProductId(id);
+    setAddModalOpen(true);
+  }
+
+  const handleOpenDeleteModal = (id)=>{
+    setSelectedProductId(id);
+    setDeleteModalOpen(true);
+  }
 
   return (
     <div className="App">
@@ -52,12 +82,13 @@ const App = () => {
           <h2>{product.title}</h2>
           <p>{product.description}</p>
           <p>Price: ${product.price.toFixed(2)}</p>
-          <button onClick={() => setSelectedProductId(product.id)}>Edit</button>
-          <button onClick={() => setDeleteModalOpen(true)}>Delete</button>
+          <button onClick={() => handleOpenEditModal(product._id)}>Edit</button>
+          <button onClick={() => handleOpenDeleteModal(product._id)}>Delete</button>
         </div>
       ))}
 
       <Modal
+        className="modal"
         isOpen={isAddModalOpen}
         onRequestClose={() => setAddModalOpen(false)}
         contentLabel="Add Product Modal"
@@ -70,6 +101,7 @@ const App = () => {
       </Modal>
 
       <Modal
+        className="modal"
         isOpen={isDeleteModalOpen}
         onRequestClose={() => setDeleteModalOpen(false)}
         contentLabel="Delete Confirmation Modal"
