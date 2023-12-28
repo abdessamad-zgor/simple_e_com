@@ -9,6 +9,7 @@ const App = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
 
+  // recuperer tous produits dans la collection 'products'
   useEffect(()=>{
     fetch('http://localhost:8080/api.php')
     .then(res=>res.json())
@@ -17,10 +18,7 @@ const App = () => {
     })
   }, [])
 
-  useEffect(()=>{
-    console.log(products)
-  }, [products])
-
+  // faire ajouter un produit avec les information du formulaire
   const handleAddProduct = (newProduct) => {
     fetch('http://localhost:8080/api.php', {
       method: 'POST',
@@ -34,6 +32,7 @@ const App = () => {
     })
   };
 
+  // faire le mise a jour du produit avec _id == selectedProductId
   const handleEditProduct = (editedProduct) => {
     fetch(`http://localhost:8080/api.php?id=${selectedProductId}`,
       {
@@ -52,8 +51,13 @@ const App = () => {
     })
   };
 
+  // faire le suppression du produit avec _id == selectedProductId
   const handleDeleteProduct = () => {
-    fetch(`http://localhost:8080/api.php?id=${selectedProductId}`)
+    fetch(`http://localhost:8080/api.php?id=${selectedProductId}`,
+      {
+        method: 'DELETE'
+      }
+    )
     .then(()=>{
       setProducts((prevProducts) =>
         prevProducts.filter((product) => product.id !== selectedProductId)
@@ -116,7 +120,7 @@ const App = () => {
 };
 
 
-
+// formulaire d'ajout ou modification d'un produit
 const AddEditProductModal = (props) => {
   const { onClose, onSubmit, selectedProduct } = props
   const [title, setTitle] = useState(selectedProduct?.title || '');
@@ -159,6 +163,7 @@ AddEditProductModal.propTypes = {
   }),
 };
 
+// formulaire du confirmation du formulaire
 const DeleteConfirmationModal = (props) => {
   const { onClose, onConfirm } = props
   return (
