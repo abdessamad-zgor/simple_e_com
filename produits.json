@@ -1,0 +1,52 @@
+[
+    {
+      "title": "Ruby Red Lipstick",
+      "description": "Add a touch of glamour with this vibrant Ruby Red lipstick from Glamorous Cosmetics. Formulated with nourishing ingredients like Castor Oil, Beeswax, and Vitamin E.",
+      "brand": "Glamorous Cosmetics",
+      "shade": "Ruby Red",
+      "price": 15.99,
+      "image": "lipstick_ruby_red.jpg",
+      "ingredients": ["Castor Oil", "Beeswax", "Vitamin E"],
+      "volume": "5g"
+    },
+    {
+      "title": "Waterproof Mascara",
+      "description": "Achieve long-lasting, bold lashes with Lash Luxe's Waterproof Mascara. Formulated with Aqua, Carnauba Wax, and Jojoba Oil to provide a smudge-proof finish.",
+      "brand": "Lash Luxe",
+      "type": "Waterproof",
+      "price": 12.50,
+      "image": "waterproof_mascara.jpg",
+      "ingredients": ["Aqua", "Carnauba Wax", "Jojoba Oil"],
+      "volume": "8ml"
+    },
+    {
+      "title": "Natural Beige Foundation",
+      "description": "Achieve a flawless finish with this Natural Beige Foundation from Flawless Finish. Enriched with Dimethicone, Titanium Dioxide, and Hyaluronic Acid for a smooth complexion.",
+      "brand": "Flawless Finish",
+      "shade": "Natural Beige",
+      "price": 24.99,
+      "image": "foundation_natural_beige.jpg",
+      "ingredients": ["Dimethicone", "Titanium Dioxide", "Hyaluronic Acid"],
+      "volume": "30ml"
+    },
+    {
+      "title": "Matte Eyeshadow Palette",
+      "description": "Create stunning eye looks with the Chic Colors Matte Eyeshadow Palette. Features shades in Taupe, Mauve, and Slate Gray for a versatile and elegant look.",
+      "brand": "Chic Colors",
+      "type": "Matte",
+      "price": 29.99,
+      "image": "eyeshadow_palette_matte.jpg",
+      "shades": ["Taupe", "Mauve", "Slate Gray"],
+      "netWeight": "15g"
+    },
+    {
+      "title": "Peach Bloom Blush",
+      "description": "Achieve a rosy glow with Rosey Cheeks' Peach Bloom Blush. Formulated with high-quality ingredients like Mica, Talc, and Kaolin for a natural and radiant finish.",
+      "brand": "Rosey Cheeks",
+      "shade": "Peach Bloom",
+      "price": 18.75,
+      "image": "blush_peach_bloom.jpg",
+      "ingredients": ["Mica", "Talc", "Kaolin"],
+      "netWeight": "10g"
+    }
+  ]
