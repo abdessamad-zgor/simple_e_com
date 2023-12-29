@@ -44,7 +44,7 @@ const App = () => {
 
       setProducts((prevProducts) =>
         prevProducts.map((product) =>
-          product.id === selectedProductId ? { ...product, ...editedProduct } : product
+          product._id === selectedProductId ? { ...product, ...editedProduct } : product
         )
       );
       setAddModalOpen(false);
@@ -60,7 +60,7 @@ const App = () => {
     )
     .then(()=>{
       setProducts((prevProducts) =>
-        prevProducts.filter((product) => product.id !== selectedProductId)
+        prevProducts.filter((product) => product._id !== selectedProductId)
       );
       setDeleteModalOpen(false);
     })
@@ -76,6 +76,16 @@ const App = () => {
     setDeleteModalOpen(true);
   }
 
+  const closeDeleteModal = ()=>{
+    setSelectedProductId();
+    setDeleteModalOpen(false);
+  }
+
+  const closeEditModal = ()=>{
+    setSelectedProductId();
+    setAddModalOpen(false);
+  }
+
   return (
     <div className="App">
       <h1>Product List</h1>
@@ -85,7 +95,7 @@ const App = () => {
           <img src={product.image} alt={product.title} />
           <h2>{product.title}</h2>
           <p>{product.description}</p>
-          <p>Price: ${product.price.toFixed(2)}</p>
+          <p>Price: ${Number(product.price).toFixed(2)}</p>
           <button onClick={() => handleOpenEditModal(product._id)}>Edit</button>
           <button onClick={() => handleOpenDeleteModal(product._id)}>Delete</button>
         </div>
@@ -94,24 +104,24 @@ const App = () => {
       <Modal
         className="modal"
         isOpen={isAddModalOpen}
-        onRequestClose={() => setAddModalOpen(false)}
+        onRequestClose={closeEditModal}
         contentLabel="Add Product Modal"
       >
         <AddEditProductModal
-          onClose={() => setAddModalOpen(false)}
+          onClose={closeEditModal}
           onSubmit={selectedProductId ? handleEditProduct : handleAddProduct}
-          selectedProduct={selectedProductId ? products.find((p) => p.id === selectedProductId) : null}
+          selectedProduct={selectedProductId ? products.find((p) => p._id === selectedProductId) : null}
         />
       </Modal>
 
       <Modal
         className="modal"
         isOpen={isDeleteModalOpen}
-        onRequestClose={() => setDeleteModalOpen(false)}
+        onRequestClose={closeDeleteModal}
         contentLabel="Delete Confirmation Modal"
       >
         <DeleteConfirmationModal
-          onClose={() => setDeleteModalOpen(false)}
+          onClose={closeDeleteModal}
           onConfirm={handleDeleteProduct}
         />
       </Modal>
